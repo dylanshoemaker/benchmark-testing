@@ -1,10 +1,10 @@
 const Benchmark = require('benchmark');
 const { linearSearch, binarySearch } = require('./search');
-
+const { bubbleSort } = require('./sort');
+const { quickSort } = require('./sort');
 const numbers = [];
-for (let i = 1; i <= 1000000; i++) {
-  // populate the array with the numbers 1 to 1,000,000
-  numbers.push(i);
+for (let i = 0; i < 1000; i++) {
+  numbers.push(Math.floor(Math.random() * 10000) + 1);
 }
 
 // grab the last number in the array as the number we want to find
@@ -19,8 +19,17 @@ suite
   .add('binary search', function() {
     binarySearch(numbers, target, 0, numbers.length-1)
   })
+  .add('bubble sort', function() {
+    const testArray = [...numbers];
+
+    bubbleSort(testArray);
+  })
+  .add('quick sort', function() {
+    const testArray = [...numbers];
+
+    quickSort(testArray);
+  })
   .on('complete', function() {
-    // loop over and print each result
     this.forEach(result => console.log(`${result.name} averaged ${result.stats.mean*1000} milliseconds.`));
   })
   .run();
